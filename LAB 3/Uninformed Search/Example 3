@@ -1,0 +1,20 @@
+import heapq
+
+def ucs_refined(graph, start, goal):
+    # pq stores (cumulative_cost, path) [cite: 43]
+    pq = [(0, [start])]
+    best_costs = {start: 0}
+
+    while pq:
+        total_cost, path = heapq.heappop(pq) [cite: 46]
+        current = path[-1] [cite: 47]
+
+        if current == goal: [cite: 48]
+            return path, total_cost
+
+        for neighbor, weight in graph.get(current, []): [cite: 52]
+            new_cost = total_cost + weight [cite: 53]
+            if neighbor not in best_costs or new_cost < best_costs[neighbor]:
+                best_costs[neighbor] = new_cost
+                heapq.heappush(pq, (new_cost, path + [neighbor]))
+    return None
