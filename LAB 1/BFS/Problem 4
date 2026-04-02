@@ -1,0 +1,25 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+def level_order(root):
+    if not root: return
+    queue = deque([root])
+    result = []
+    
+    while queue:
+        node = queue.popleft()
+        result.append(node.value)
+        if node.left: queue.append(node.left)
+        if node.right: queue.append(node.right)
+    return result
+
+# Constructing the tree from the manual [cite: 39, 40, 42]
+root = Node(1)
+root.left, root.right = Node(2), Node(3)
+root.left.left, root.left.right = Node(4), Node(5)
+root.right.left, root.right.right = Node(6), Node(7)
+
+print(f"Level Order Traversal: {level_order(root)}")
