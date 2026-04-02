@@ -1,0 +1,26 @@
+def astar_engine(grid, start, goal):
+    rows, cols = len(grid), len(grid[0])
+    # h(n): Manhattan distance [cite: 104, 106]
+    h = lambda p: abs(p[0]-goal[0]) + abs(p[1]-goal[1])
+    
+    # pq: (f_score, g_score, path) [cite: 108, 109]
+    pq = [(h(start), 0, [start])]
+    visited = {} # Stores best g_score for each node
+
+    while pq:
+        f, g, path = heapq.heappop(pq) [cite: 112]
+        curr = path[-1] [cite: 113]
+
+        if curr == goal: return path, g [cite: 114, 115]
+
+        if curr in visited and visited[curr] <= g: continue [cite: 116]
+        visited[curr] = g [cite: 117]
+
+        r, c = curr
+        for dr, dc in [(-1,0), (1,0), (0,-1), (0,1)]: [cite: 118]
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < rows and 0 <= nc < cols: [cite: 120]
+                # In weighted maze (Ex 5), grid[nr][nc] is the step cost [cite: 121, 164]
+                new_g = g + grid[nr][nc] 
+                heapq.heappush(pq, (new_g + h((nr, nc)), new_g, path + [(nr, nc)])) [cite: 122, 123]
+    return None
