@@ -1,0 +1,24 @@
+import heapq
+
+def ucs_optimized(graph, start_node, goal_node):
+    # priority queue: (cumulative_cost, current_node, path_taken)
+    pq = [(0, start_node, [start_node])]
+    shortest_costs = {start_node: 0}
+
+    while pq:
+        current_cost, current_node, path = heapq.heappop(pq)
+
+        if current_node == goal_node:
+            return path, current_cost
+
+        # Only explore if this is the cheapest way to reach this node
+        if current_cost > shortest_costs.get(current_node, float('inf')):
+            continue
+
+        for neighbor, weight in graph.get(current_node, []):
+            new_cost = current_cost + weight
+            if new_cost < shortest_costs.get(neighbor, float('inf')):
+                shortest_costs[neighbor] = new_cost
+                heapq.heappush(pq, (new_cost, neighbor, path + [neighbor]))
+                
+    return None, float('inf')
