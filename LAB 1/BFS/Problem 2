@@ -1,0 +1,28 @@
+def bfs_maze(maze):
+    start_pos = (0, 0) # 'S'
+    rows, cols = len(maze), len(maze[0])
+    queue = deque([(start_pos, [start_pos])])
+    visited = {start_pos}
+    
+    while queue:
+        (r, c), path = queue.popleft()
+        
+        if maze[r][c] == 'G':
+            return path
+        
+        # Directions: Up, Down, Left, Right
+        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < rows and 0 <= nc < cols and \
+               maze[nr][nc] != '#' and (nr, nc) not in visited:
+                visited.add((nr, nc))
+                queue.append(((nr, nc), path + [(nr, nc)]))
+    return None
+
+maze = [
+    ['S', '.', '.', '.', 'G'],
+    ['#', '.', '#', '.', '.'],
+    ['.', '.', '#', '.', '.'],
+    ['.', '#', '#', '#', '.'],
+] [cite: 23, 24, 25, 26, 27]
+print(f"Maze Path: {bfs_maze(maze)}")
