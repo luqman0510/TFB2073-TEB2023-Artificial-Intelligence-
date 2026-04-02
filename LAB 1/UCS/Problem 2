@@ -1,0 +1,30 @@
+def ucs_grid(grid, start=(0,0), goal=(4,4)):
+    rows, cols = len(grid), len(grid[0])
+    queue = [(grid[start[0]][start[1]], start, [start])]
+    visited = {} # Store min cost to reach a cell
+
+    while queue:
+        cost, (r, c), path = heapq.heappop(queue)
+
+        if (r, c) == goal:
+            return path, cost
+
+        if (r, c) not in visited or cost < visited[(r, c)]:
+            visited[(r, c)] = cost
+            for dr, dc in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < rows and 0 <= nc < cols:
+                    new_cost = cost + grid[nr][nc]
+                    heapq.heappush(queue, (new_cost, (nr, nc), path + [(nr, nc)]))
+    return None
+
+grid = [
+    [1, 1, 1, 99, 1],
+    [99, 99, 1, 99, 1],
+    [1, 1, 1, 1, 1],
+    [1, 99, 99, 99, 1],
+    [1, 1, 1, 1, 1]
+] # [cite: 88-93]
+
+path, cost = ucs_grid(grid)
+print(f"Grid Path Cost: {cost}")
