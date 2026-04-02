@@ -1,0 +1,16 @@
+# Data from [cite: 73-85]
+words_graph = {
+    'hit': ['hot'],
+    'hot': ['dot', 'lot'],
+    'dot': ['dog'],
+    'lot': ['log'],
+    'dog': ['cog'],
+    'log': ['cog'],
+    'cog': []
+}
+heuristic_words = {
+    'hit': 3, 'hot': 2, 'dot': 2, 'dog': 1,
+    'lot': 2, 'log': 1, 'cog': 0
+}
+
+print(f"Problem 4 Word Ladder: {gbfs_graph(words_graph, heuristic_words, 'hit', 'cog')}")
