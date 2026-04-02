@@ -1,0 +1,21 @@
+def greedy_bfs_v2(grid, start, goal):
+    def manhattan(p1, p2): # Distance heuristic [cite: 82, 83]
+        return abs(p1[0]-p2[0]) + abs(p1[1]-p2[1])
+
+    pq = [(manhattan(start, goal), [start])] [cite: 87]
+    visited = {start}
+
+    while pq:
+        h, path = heapq.heappop(pq) [cite: 88]
+        curr = path[-1] [cite: 89]
+
+        if curr == goal: return path [cite: 91]
+
+        r, c = curr
+        for dr, dc in [(-1,0), (1,0), (0,-1), (0,1)]: [cite: 95]
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < len(grid) and 0 <= nc < len(grid[0]) and grid[nr][nc] == 0: [cite: 97]
+                if (nr, nc) not in visited: [cite: 93]
+                    visited.add((nr, nc)) [cite: 94]
+                    heapq.heappush(pq, (manhattan((nr, nc), goal), path + [(nr, nc)]))
+    return None
