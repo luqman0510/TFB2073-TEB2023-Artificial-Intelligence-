@@ -1,0 +1,31 @@
+import heapq
+
+graph = {
+    'A': [('B', 1), ('C', 4)],
+    'B': [('D', 3), ('E', 2)],
+    'C': [('F', 5)],
+    'D': [('G', 4)],
+    'E': [('G', 1)],
+    'F': [('G', 2)]
+} # [cite: 69-77]
+
+def ucs_path(graph, start, goal):
+    # Priority Queue stores: (cumulative_cost, current_node, path)
+    queue = [(0, start, [start])]
+    visited = set()
+
+    while queue:
+        (cost, node, path) = heapq.heappop(queue)
+
+        if node == goal:
+            return path, cost
+
+        if node not in visited:
+            visited.add(node)
+            for neighbor, weight in graph.get(node, []):
+                if neighbor not in visited:
+                    heapq.heappush(queue, (cost + weight, neighbor, path + [neighbor]))
+    return None, 0
+
+path, total_cost = ucs_path(graph, 'A', 'G')
+print(f"UCS Path: {path} with Cost: {total_cost}")
