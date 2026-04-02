@@ -1,0 +1,20 @@
+def word_ladder(start, goal, word_list):
+    word_set = set(word_list) [cite: 32]
+    queue = deque([(start, [start])])
+    visited = {start}
+    
+    while queue:
+        current_word, path = queue.popleft()
+        if current_word == goal:
+            return path
+        
+        for i in range(len(current_word)):
+            for char in 'abcdefghijklmnopqrstuvwxyz':
+                next_word = current_word[:i] + char + current_word[i+1:]
+                if next_word in word_set and next_word not in visited:
+                    visited.add(next_word)
+                    queue.append((next_word, path + [next_word]))
+    return None
+
+word_list = ["hit", "hot", "dot", "dog", "lot", "log", "cog"] [cite: 32]
+print(f"Word Transformation: {word_ladder('hit', 'cog', word_list)}")
