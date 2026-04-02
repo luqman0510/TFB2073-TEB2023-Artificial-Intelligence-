@@ -1,0 +1,26 @@
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': ['G'],
+    'E': ['G'],
+    'F': ['G'],
+    'G': []
+} # [cite: 43-51]
+
+def dfs_path(graph, start, goal, visited=None, path=None):
+    if visited is None: visited = set()
+    if path is None: path = [start]
+    
+    if start == goal:
+        return path
+    
+    visited.add(start)
+    
+    for neighbor in graph.get(start, []):
+        if neighbor not in visited:
+            result = dfs_path(graph, neighbor, goal, visited, path + [neighbor])
+            if result: return result
+    return None
+
+print(f"DFS Path A to G: {dfs_path(graph, 'A', 'G')}")
