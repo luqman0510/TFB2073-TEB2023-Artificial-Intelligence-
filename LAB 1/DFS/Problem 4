@@ -1,0 +1,19 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+def preorder_dfs(node):
+    if not node:
+        return []
+    # Preorder: Visit Root, then Left, then Right
+    return [node.value] + preorder_dfs(node.left) + preorder_dfs(node.right)
+
+# Tree structure from [cite: 38-42]
+root = Node(1)
+root.left, root.right = Node(2), Node(3)
+root.left.left, root.left.right = Node(4), Node(5)
+root.right.left, root.right.right = Node(6), Node(7)
+
+print(f"DFS Preorder Traversal: {preorder_dfs(root)}")
