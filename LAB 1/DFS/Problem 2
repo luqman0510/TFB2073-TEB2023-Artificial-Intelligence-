@@ -1,0 +1,29 @@
+maze = [
+    ['S', '.', '.', '.', 'G'],
+    ['#', '#', '.', '#', '.'],
+    ['.', '.', '.', '.', '.'],
+    ['.', '#', '#', '#', '.'],
+] # [cite: 56-60]
+
+def dfs_maze(maze, start=(0,0), goal='G', visited=None):
+    if visited is None: visited = set()
+    r, c = start
+    
+    # Boundary and wall checks
+    if not (0 <= r < len(maze) and 0 <= c < len(maze[0])) or \
+       maze[r][c] == '#' or start in visited:
+        return None
+    
+    if maze[r][c] == goal:
+        return [start]
+    
+    visited.add(start)
+    
+    # Explore: Down, Up, Right, Left
+    for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+        path = dfs_maze(maze, (r + dr, c + dc), goal, visited)
+        if path:
+            return [start] + path
+    return None
+
+print(f"DFS Maze Path: {dfs_maze(maze)}")
