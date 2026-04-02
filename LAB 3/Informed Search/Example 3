@@ -1,0 +1,18 @@
+def astar_graph_v2(graph, h_table, start, goal):
+    # (f, g, path) [cite: 130]
+    pq = [(h_table[start], 0, [start])]
+    visited = set() [cite: 131]
+
+    while pq:
+        f, g, path = heapq.heappop(pq) [cite: 133]
+        node = path[-1] [cite: 134]
+
+        if node == goal: return path, g [cite: 135, 136]
+
+        if node not in visited: [cite: 137]
+            visited.add(node) [cite: 138]
+            for neighbor, weight in graph.get(node, []): [cite: 139]
+                new_g = g + weight [cite: 140]
+                f_score = new_g + h_table.get(neighbor, 0) [cite: 141]
+                heapq.heappush(pq, (f_score, new_g, path + [neighbor])) [cite: 142]
+    return None
