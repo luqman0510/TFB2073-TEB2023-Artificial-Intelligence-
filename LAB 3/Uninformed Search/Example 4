@@ -1,0 +1,24 @@
+import heapq
+
+def gbfs_word_ladder(word_dict, start_word, goal_word):
+    # Heuristic: count positions where letters differ
+    def calculate_h(word):
+        return sum(1 for a, b in zip(word, goal_word) if a != b)
+
+    # (heuristic_value, current_word, path)
+    pq = [(calculate_h(start_word), start_word, [start_word])]
+    seen = {start_word}
+
+    while pq:
+        h_val, current, path = heapq.heappop(pq)
+
+        if current == goal_word:
+            return path
+
+        # Retrieve neighbors from dictionary or return empty list
+        for neighbor in word_dict.get(current, []):
+            if neighbor not in seen:
+                seen.add(neighbor)
+                heapq.heappush(pq, (calculate_h(neighbor), neighbor, path + [neighbor]))
+                
+    return None
