@@ -1,31 +1,26 @@
 from collections import deque
 
-def bfs_grid_alternative(grid, start, goal):
+def bfs_grid_v2(grid, start, goal):
     rows, cols = len(grid), len(grid[0])
-    # Directions: Up, Down, Left, Right
-    movements = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-    
     queue = deque([start])
-    visited = {start: None}  # Stores child: parent relationship
+    # path_tracker stores {child_node: parent_node}
+    path_tracker = {start: None}
 
     while queue:
-        curr_node = queue.popleft()
-        
-        if curr_node == goal:
-            # Reconstruct path from goal to start
+        current = queue.popleft()
+        if current == goal:
+            # Reconstruct path from goal to start [cite: 15]
             path = []
-            while curr_node:
-                path.append(curr_node)
-                curr_node = visited[curr_node]
-            return path[::-1] # Reverse to get start -> goal
+            while current:
+                path.append(current)
+                current = path_tracker[current]
+            return path[::-1]
 
-        x, y = curr_node
-        for dx, dy in movements:
-            nx, ny = x + dx, y + dy
-            
-            # Check bounds and if cell is walkable (0)
-            if 0 <= nx < rows and 0 <= ny < cols and grid[nx][ny] == 0:
-                if (nx, ny) not in visited:
-                    visited[(nx, ny)] = curr_node
-                    queue.append((nx, ny))
+        r, c = current
+        for dr, dc in [(-1,0), (1,0), (0,-1), (0,1)]: # Up, Down, Left, Right [cite: 16]
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 0: [cite: 18]
+                if (nr, nc) not in path_tracker: [cite: 19]
+                    path_tracker[(nr, nc)] = current
+                    queue.append((nr, nc)) [cite: 21]
     return None
