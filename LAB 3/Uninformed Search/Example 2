@@ -1,24 +1,18 @@
-import heapq
+def dfs_maze_stack(grid, start, goal):
+    rows, cols = len(grid), len(grid[0])
+    stack = [(start, [start])]
+    visited = set()
 
-def ucs_optimized(graph, start_node, goal_node):
-    # priority queue: (cumulative_cost, current_node, path_taken)
-    pq = [(0, start_node, [start_node])]
-    shortest_costs = {start_node: 0}
-
-    while pq:
-        current_cost, current_node, path = heapq.heappop(pq)
-
-        if current_node == goal_node:
-            return path, current_cost
-
-        # Only explore if this is the cheapest way to reach this node
-        if current_cost > shortest_costs.get(current_node, float('inf')):
-            continue
-
-        for neighbor, weight in graph.get(current_node, []):
-            new_cost = current_cost + weight
-            if new_cost < shortest_costs.get(neighbor, float('inf')):
-                shortest_costs[neighbor] = new_cost
-                heapq.heappush(pq, (new_cost, neighbor, path + [neighbor]))
-                
-    return None, float('inf')
+    while stack:
+        (r, c), path = stack.pop() # LIFO behavior for DFS [cite: 26]
+        
+        if (r, c) == goal: [cite: 27]
+            return path
+            
+        if (r, c) not in visited:
+            visited.add((r, c)) [cite: 29]
+            for dr, dc in [(-1,0), (1,0), (0,-1), (0,1)]: [cite: 30]
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 0: [cite: 32, 33]
+                    stack.append(((nr, nc), path + [(nr, nc)]))
+    return None
