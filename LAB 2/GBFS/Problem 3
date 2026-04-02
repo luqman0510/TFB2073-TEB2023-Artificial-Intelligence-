@@ -1,0 +1,13 @@
+graph3 = {
+    'S': ['A', 'B'],
+    'A': ['C'],
+    'B': ['D', 'E'],
+    'C': ['G'],
+    'D': [],
+    'E': ['G'],
+    'G': []
+}
+# Heuristic from [cite: 68]
+heuristic3 = {'S': 7, 'A': 6, 'B': 2, 'C': 1, 'D': 4, 'E': 2, 'G': 0}
+
+print(f"Problem 3 City Path: {gbfs_graph(graph3, heuristic3, 'S', 'G')}")
