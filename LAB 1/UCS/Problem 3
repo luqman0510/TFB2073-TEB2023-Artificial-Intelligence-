@@ -1,0 +1,11 @@
+graph_loops = {
+    'A': [('B', 2), ('C', 5)],
+    'B': [('A', 2), ('D', 1)],
+    'C': [('A', 5), ('D', 2)],
+    'D': [('B', 1), ('C', 2), ('G', 3)],
+    'G': []
+} # [cite: 97-103]
+
+# We can reuse the ucs_path function from Problem 1
+path, total_cost = ucs_path(graph_loops, 'A', 'G')
+print(f"Looping Graph Path: {path} with Cost: {total_cost}")
