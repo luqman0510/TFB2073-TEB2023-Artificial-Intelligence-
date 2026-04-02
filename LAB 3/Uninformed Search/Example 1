@@ -1,0 +1,31 @@
+from collections import deque
+
+def bfs_grid_alternative(grid, start, goal):
+    rows, cols = len(grid), len(grid[0])
+    # Directions: Up, Down, Left, Right
+    movements = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    
+    queue = deque([start])
+    visited = {start: None}  # Stores child: parent relationship
+
+    while queue:
+        curr_node = queue.popleft()
+        
+        if curr_node == goal:
+            # Reconstruct path from goal to start
+            path = []
+            while curr_node:
+                path.append(curr_node)
+                curr_node = visited[curr_node]
+            return path[::-1] # Reverse to get start -> goal
+
+        x, y = curr_node
+        for dx, dy in movements:
+            nx, ny = x + dx, y + dy
+            
+            # Check bounds and if cell is walkable (0)
+            if 0 <= nx < rows and 0 <= ny < cols and grid[nx][ny] == 0:
+                if (nx, ny) not in visited:
+                    visited[(nx, ny)] = curr_node
+                    queue.append((nx, ny))
+    return None
