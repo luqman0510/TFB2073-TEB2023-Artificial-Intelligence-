@@ -1,0 +1,18 @@
+word_list = ["hit", "hot", "dot", "dog", "lot", "log", "cog"] # [cite: 63]
+
+def dfs_word_ladder(current, goal, words, visited=None):
+    if visited is None: visited = {current}
+    if current == goal:
+        return [current]
+    
+    for i in range(len(current)):
+        for char in 'abcdefghijklmnopqrstuvwxyz':
+            next_word = current[:i] + char + current[i+1:]
+            if next_word in words and next_word not in visited:
+                visited.add(next_word)
+                path = dfs_word_ladder(next_word, goal, words, visited)
+                if path:
+                    return [current] + path
+    return None
+
+print(f"DFS Word Ladder: {dfs_word_ladder('hit', 'cog', set(word_list))}")
