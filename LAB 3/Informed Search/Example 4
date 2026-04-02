@@ -1,0 +1,18 @@
+def greedy_word_ladder_refined(word_list, start, goal):
+    # h(n): Count how many letters are different [cite: 149]
+    def h(word): return sum(1 for a, b in zip(word, goal) if a != b)
+
+    pq = [(h(start), [start])]
+    seen = {start} [cite: 150]
+
+    while pq:
+        current_h, path = heapq.heappop(pq) [cite: 152]
+        current_word = path[-1] [cite: 153]
+
+        if current_word == goal: return path [cite: 154, 155]
+
+        for neighbor in word_list.get(current_word, []): [cite: 157]
+            if neighbor not in seen: [cite: 158]
+                seen.add(neighbor)
+                heapq.heappush(pq, (h(neighbor), path + [neighbor])) [cite: 159]
+    return None
