@@ -1,0 +1,42 @@
+import heapq
+
+def astar(graph, heuristic, start, goal):
+    # pq stores (priority, actual_cost, path)
+    # priority = g_cost + h_cost
+    pq = [(heuristic[start], 0, [start])]
+    visited = set()
+
+    while pq:
+        f_cost, g_cost, path = heapq.heappop(pq)
+        node = path[-1]
+
+        if node == goal:
+            return path, g_cost
+
+        if node not in visited:
+            visited.add(node)
+            for neighbor, weight in graph.get(node, []):
+                new_g_cost = g_cost + weight
+                new_f_cost = new_g_cost + heuristic[neighbor]
+                heapq.heappush(pq, (new_f_cost, new_g_cost, path + [neighbor]))
+    
+    return None, float('inf')
+
+# Data from [cite: 314-346]
+graph_astar = {
+    'A': [('B', 1), ('C', 4)],
+    'B': [('D', 3), ('E', 1)],
+    'C': [('F', 5)],
+    'D': [],
+    'E': [('G', 2)],
+    'F': [('G', 1)],
+    'G': []
+}
+
+heuristic_astar = {
+    'A': 7, 'B': 6, 'C': 4, 'D': 3, 'E': 2, 'F': 2, 'G': 0
+}
+
+path, cost = astar(graph_astar, heuristic_astar, 'A', 'G')
+print(f"A* Graph Path: {path} with Total Cost: {cost}")
+# Output matches [cite: 361-362]: (['A', 'B', 'E', 'G'], 4)
