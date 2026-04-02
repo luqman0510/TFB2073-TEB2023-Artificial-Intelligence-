@@ -1,0 +1,4 @@
+def dfs_preorder_refined(root):
+    if not root: return [] [cite: 75]
+    # Root -> Left -> Right [cite: 77]
+    return [root.val] + dfs_preorder_refined(root.left) + dfs_preorder_refined(root.right)
